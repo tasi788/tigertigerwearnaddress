@@ -28,7 +28,7 @@ class InlineHandler(InlineUserHandler, AnswererMixin):
 
         def compute_answer():
             tmp = open('content.txt', 'r').read()
-            sayList = tmp.split('\n')
+            sayList = tmp.split(',\n')[0:-1]
             articles = [{'type': 'article', 'id': 'id', 'title': '虎虎?', 'message_text': random.choice(sayList)}]
 
             return articles, 0
