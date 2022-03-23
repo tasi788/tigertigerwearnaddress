@@ -63,44 +63,50 @@ func main() {
 			}
 
 		}
-		//log.Println(update.Message)
+
 		if update.InlineQuery != nil {
-			fuckingrich := []int64{525239263, 1013801267}
-			for _, id := range fuckingrich {
-				if id == update.InlineQuery.From.ID  && update.InlineQuery.Query == "sk" {
-					dict := fetchContent("rich.txt")
-					article := tgbotapi.NewInlineQueryResultArticle(
-						update.InlineQuery.ID,
-						"台幣戰士",
-						dict[0])
-					article.ThumbURL = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/eggplant_1f346.png"
-					inlineConf := tgbotapi.InlineConfig{
-						InlineQueryID: update.InlineQuery.ID,
-						CacheTime:     1,
-						IsPersonal:    false,
-						Results:       []interface{}{article},
-					}
-					bot.Send(inlineConf)
-				} else {
-					rand.Seed(time.Now().Unix())
-					article := tgbotapi.NewInlineQueryResultArticle(
-						update.InlineQuery.ID,
-						"虎虎？",
-						dict[rand.Intn(len(dict))])
-
-					article.ThumbURL = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/198/dress_1f457.png"
-
-					inlineConf := tgbotapi.InlineConfig{
-						InlineQueryID: update.InlineQuery.ID,
-						CacheTime:     1,
-						IsPersonal:    false,
-						Results:       []interface{}{article},
-					}
-					bot.Send(inlineConf)
+			if checker(update.InlineQuery.From.ID) == true && update.InlineQuery.Query == "sk" {
+				dict := fetchContent("rich.txt")
+				article := tgbotapi.NewInlineQueryResultArticle(
+					update.InlineQuery.ID,
+					"台幣戰士",
+					dict[0])
+				article.ThumbURL = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/325/eggplant_1f346.png"
+				inlineConf := tgbotapi.InlineConfig{
+					InlineQueryID: update.InlineQuery.ID,
+					CacheTime:     1,
+					IsPersonal:    false,
+					Results:       []interface{}{article},
 				}
+				bot.Send(inlineConf)
+				continue
 			}
 
-		}
+			rand.Seed(time.Now().Unix())
+			article := tgbotapi.NewInlineQueryResultArticle(
+				update.InlineQuery.ID,
+				"虎虎？",
+				dict[rand.Intn(len(dict))])
 
+			article.ThumbURL = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/198/dress_1f457.png"
+
+			inlineConf := tgbotapi.InlineConfig{
+				InlineQueryID: update.InlineQuery.ID,
+				CacheTime:     1,
+				IsPersonal:    false,
+				Results:       []interface{}{article},
+			}
+			bot.Send(inlineConf)
+		}
 	}
+}
+
+func checker(id int64) bool {
+	fuckingrich := []int64{525239263, 1013801267}
+	for _, richid := range fuckingrich {
+		if id == richid {
+			return true
+		}
+	}
+	return false
 }
